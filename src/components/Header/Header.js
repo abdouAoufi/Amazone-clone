@@ -10,7 +10,9 @@ function Header() {
     <div>
       <Container>
         <HeaderLogo>
-          <img src={"https://i.imgur.com/7I9Was5.png"} alt="logo" />
+          <Link to="/">
+            <img src={"https://i.imgur.com/7I9Was5.png"} alt="logo" />
+          </Link>
         </HeaderLogo>
         <HeaderOptionAdress>
           <LocationOnIcon />
@@ -29,7 +31,7 @@ function Header() {
 
         <HeaderNavItems>
           <HeaderOption>
-            <OptionLineOne>Hello , nazzary</OptionLineOne>
+            <OptionLineOne>Hello , Maissa </OptionLineOne>
             <OptionLineTwo>Account & list</OptionLineTwo>
           </HeaderOption>
 
@@ -121,10 +123,10 @@ const HeaderOptionCard = styled.div`
   align-items: center;
   padding-right: 9px;
   padding-left: 9px;
-  a{
-    display : flex;
-    text-decoration : none;
-    color : white;
+  a {
+    display: flex;
+    text-decoration: none;
+    color: white;
   }
 `;
 
