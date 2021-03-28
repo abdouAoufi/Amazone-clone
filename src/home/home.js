@@ -11,7 +11,7 @@ function Home() {
       let tempProducts = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
-          product: doc.data(),
+          product: doc.data(), // ! get data from current document
         };
       });
       setProduct(tempProducts);
@@ -20,13 +20,22 @@ function Home() {
   useEffect(() => {
     getProduct();
   }, []);
-  console.log(products);
   return (
     <Container>
       <Banner></Banner>
       <Content>
-        <Product />
-        <Product />
+        {products.map((data) => {
+          // console.log(data.product);
+          return (
+            <Product
+              key={data.id}
+              name={data.product.name}
+              price={data.product.price}
+              pic={data.product.image}
+              rating = {data.product.rating}
+            />
+          );
+        })}
       </Content>
     </Container>
   );

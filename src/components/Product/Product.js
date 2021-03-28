@@ -1,13 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
-function Product() {
+function Product(props) {
+  let getRating = (ratingNumber) => {
+    let ratting = [];
+    for (let i = 0; i < ratingNumber; i++) {
+      ratting.push("⭐");
+    }
+    return ratting;
+  };
+
   return (
     <Container>
-      <Title>Ipad pro</Title>
-      <Price>$1449</Price>
-      <Rating>⭐⭐⭐⭐⭐</Rating>
-      <Picture src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.ODxMCfH4yxHT65kUG3xvKwHaHa%26pid%3DApi&f=1" />
+      <Title>{props.name}</Title>
+      <Price>$ {props.price}</Price>
+      <Rating>
+        {getRating(Math.floor(props.rating)).map((star) => {
+          return star;
+        })}
+      </Rating>
+      <Picture src={props.pic} loading="lazy" />
       <ActionSection>
         <AddToCart>Add to cart </AddToCart>
       </ActionSection>
@@ -20,7 +32,7 @@ export default Product;
 const Container = styled.div`
   background-color: white;
   z-index: 1;
-  max-height: 300px;
+  max-height: 350px;
   flex-grow: 1;
   padding: 20px;
   margin: 10px;
@@ -30,10 +42,13 @@ const Container = styled.div`
 
 const Title = styled.span``;
 const Price = styled.span`
-  font-weight: 500;
+  font-weight: 700;
   margin-top: 3px;
 `;
-const Rating = styled.div``;
+const Rating = styled.div`
+  font-size: 18px;
+  margin : 8px 0 ;
+`;
 const AddToCart = styled.button`
   width: 100px;
   background-color: #f0c14b;
@@ -43,11 +58,11 @@ const AddToCart = styled.button`
 `;
 const Picture = styled.img`
   object-fit: contain;
-  max-height: 200px;
+  max-height: 230px;
 `;
 
 const ActionSection = styled.div`
   display: grid;
   place-items: center;
-  margin-top : 12px;
+  margin-top: 12px;
 `;
