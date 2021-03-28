@@ -132,4 +132,6 @@ const HeaderOptionCard = styled.div`
 
 const CartCount = styled.div`
   padding-left: 9px;
+  font-weight : 700;
+  color : #f08804;
 `;

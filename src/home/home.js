@@ -29,7 +29,7 @@ function Home() {
           return (
             <Product
               key={data.id}
-              name={data.product.name}
+              title={data.product.name}
               price={data.product.price}
               pic={data.product.image}
               rating = {data.product.rating}

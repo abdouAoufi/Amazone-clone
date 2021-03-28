@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function Product(props) {
+function Product({ title, price, rating, pic, id }) {
   let getRating = (ratingNumber) => {
     let ratting = [];
     for (let i = 0; i < ratingNumber; i++) {
@@ -12,14 +12,14 @@ function Product(props) {
 
   return (
     <Container>
-      <Title>{props.name}</Title>
-      <Price>$ {props.price}</Price>
+      <Title>{title}</Title>
+      <Price>$ {price}</Price>
       <Rating>
-        {getRating(Math.floor(props.rating)).map((star) => {
+        {getRating(Math.floor(rating)).map((star) => {
           return star;
         })}
       </Rating>
-      <Picture src={props.pic} loading="lazy" />
+      <Picture src={pic} loading="lazy" />
       <ActionSection>
         <AddToCart>Add to cart </AddToCart>
       </ActionSection>
@@ -47,7 +47,7 @@ const Price = styled.span`
 `;
 const Rating = styled.div`
   font-size: 18px;
-  margin : 8px 0 ;
+  margin: 8px 0;
 `;
 const AddToCart = styled.button`
   width: 100px;
