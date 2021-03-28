@@ -42,7 +42,7 @@ function Header() {
           <HeaderOptionCard>
             <Link to="/cart">
               <ShopIcon />
-              <CartCount>4</CartCount>
+              <CartCount>5</CartCount>
             </Link>
           </HeaderOptionCard>
         </HeaderNavItems>
