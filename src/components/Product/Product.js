@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { db } from "../../Firebase/FireBase";
 
 function Product({ title, price, rating, pic, id }) {
   let getRating = (ratingNumber) => {
@@ -10,6 +11,25 @@ function Product({ title, price, rating, pic, id }) {
     return ratting;
   };
 
+  const addToCart = () => {
+    const cartItem = db.collection("cartItems").doc(id);
+    cartItem.get().then((doc) => {
+      console.log(doc.exists)
+      if (doc.exists) {
+        console.log("the document does exist !!!!! ")
+        cartItem.update({
+          quantity: doc.data().quantity + 1,
+        });
+      } else {
+        db.collection("cartItems").doc(id).set({
+          name: title,
+          image: pic,
+          quantity: 1,
+          price: price,
+        });
+      }
+    });
+  };
   return (
     <Container>
       <Title>{title}</Title>
@@ -19,9 +39,9 @@ function Product({ title, price, rating, pic, id }) {
           return star;
         })}
       </Rating>
-      <Picture src={pic} loading="lazy" />
+      <Picture src={pic} />
       <ActionSection>
-        <AddToCart>Add to cart </AddToCart>
+        <AddToCart onClick={addToCart}> Add to cart </AddToCart>
       </ActionSection>
     </Container>
   );
@@ -54,6 +74,7 @@ const AddToCart = styled.button`
   background-color: #f0c14b;
   border-radius: 2px;
   height: 30px;
+  cursor : pointer ;
   border: 2px solid #a88734;
 `;
 const Picture = styled.img`

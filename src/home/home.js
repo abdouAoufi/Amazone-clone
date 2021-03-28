@@ -29,6 +29,7 @@ function Home() {
           return (
             <Product
               key={data.id}
+              id={data.id}
               title={data.product.name}
               price={data.product.price}
               pic={data.product.image}
