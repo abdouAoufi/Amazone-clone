@@ -10,7 +10,7 @@ const SingleCartItem = ({ id, item }) => {
   }
 
   return (
-    <Container>
+    <Container >
       <ImageContainer>
         <img src={item.image} alt="product" />
       </ImageContainer>
@@ -20,9 +20,9 @@ const SingleCartItem = ({ id, item }) => {
         </CartItemInfoTop>
         <CartItemInfoBottom>
           <CartItemQuantityContainer>
-            <select value={item.quantity}>
+            <select value={item.quantity} readOnly>
               {options.map((item) => {
-                return <option value={item}> Qty : {item}</option>;
+                return <option value={item} key={item}> Qty : {item}</option>;
               })}
             </select>
           </CartItemQuantityContainer>

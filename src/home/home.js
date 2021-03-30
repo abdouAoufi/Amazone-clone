@@ -1,45 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Product from "../components/Product/Product";
 import { db } from "../Firebase/FireBase";
+import ParentDisplayer from "./ParentDsiplayer/ParentDisplayer";
 
-function Home() {
-  const [products, setProduct] = useState([]);
+class Home extends React.Component {
+  state = {
+    show: false,
+    ourProducts: [],
+    selectedProduct: "",
+  };
 
-  const getProduct = () => {
+  componentDidMount() {
     db.collection("products").onSnapshot((snapshot) => {
       let tempProducts = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
-          product: doc.data(), // ! get data from current document
+          product: doc.data(),
         };
       });
-      setProduct(tempProducts);
+      this.setState({ ourProducts: tempProducts });
     });
+  }
+
+  clickProductHandler = (product) => {
+    let newChanges = { show: !this.state.show, selectedProduct: product };
+    this.setState(newChanges);
   };
-  useEffect(() => {
-    getProduct();
-  }, []);
-  return (
-    <Container>
-      <Banner></Banner>
-      <Content>
-        {products.map((data) => {
-          // console.log(data.product);
-          return (
-            <Product
-              key={data.id}
-              id={data.id}
-              title={data.product.name}
-              price={data.product.price}
-              pic={data.product.image}
-              rating = {data.product.rating}
-            />
-          );
-        })}
-      </Content>
-    </Container>
-  );
+  render() {
+    return (
+      <Container>
+        <Banner />
+
+        <ParentDisplayer
+          show={this.state.show}
+          click={() => {
+            this.clickProductHandler(undefined);
+          }}
+          product={this.state.selectedProduct}
+        />
+        <Content>
+          <HeaderContainer>
+            {this.state.ourProducts.map((data, index) => {
+              if (index <= 1) {
+                return (
+                  <Product
+                    click={() => {
+                      this.clickProductHandler(data.product);
+                    }}
+                    key={data.id}
+                    id={data.id}
+                    title={data.product.name}
+                    price={data.product.price}
+                    pic={data.product.image}
+                    rating={data.product.rating}
+                  />
+                );
+              }
+            })}
+          </HeaderContainer>
+          <ListContainer>
+            {this.state.ourProducts.map((data, index) => {
+              if (index >= 0) {
+                return (
+                  <Product
+                    click={() => {
+                      this.clickProductHandler(data.product);
+                    }}
+                    key={data.id}
+                    id={data.id}
+                    title={data.product.name}
+                    price={data.product.price}
+                    pic={data.product.image}
+                    rating={data.product.rating}
+                  />
+                );
+              }
+            })}
+          </ListContainer>
+
+        
+        </Content>
+      </Container>
+    );
+  }
 }
 
 export default Home;
@@ -47,6 +91,11 @@ export default Home;
 const Container = styled.div`
   max-width: 90%;
   margin: auto;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Banner = styled.div`
@@ -59,6 +108,14 @@ const Banner = styled.div`
 const Content = styled.div`
   padding: 0 10px;
   margin-top: -225px;
-  z-index: 100;
+  z-index: 80;
+`;
+
+const HeaderContainer = styled.div`
   display: flex;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  overflow: auto;
 `;

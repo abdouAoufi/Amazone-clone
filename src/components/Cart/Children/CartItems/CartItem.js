@@ -8,8 +8,8 @@ function CartItem({ cartItems }) {
       <Title>Shopping cart </Title>
       <hr />
       <ItemsContainer>
-        {cartItems.map((item) => (
-          <SingleCartItem key={item.id} id={item.id} item={item.product} />
+        {cartItems.map((item , index) => (
+          <SingleCartItem key={index} id={item.id} item={item.product} />
         ))}
       </ItemsContainer>
     </Container>
@@ -19,7 +19,6 @@ function CartItem({ cartItems }) {
 export default CartItem;
 
 const Container = styled.div`
-  border: 1px solid magenta;
   background-color: white;
   flex-grow: 0.8;
   margin-right: 18px;

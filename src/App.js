@@ -1,7 +1,7 @@
 import "./App.css";
 import Header from "./components/Header/Header";
 import Cart from "./components/Cart/Cart";
-import Home from "../src/home/home";
+import Home from "../src/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "./Firebase/FireBase";
@@ -16,13 +16,17 @@ function App() {
           product: docs.data(),
         };
       });
-      setcartItems(tempItems);
+      setcartItems(tempItems); // ? basically it sets the state
     });
   };
 
+
   useEffect(() => {
     getCardItems();
-}, []);
+  }, []);
+
+ 
+ 
   return (
     <Router>
       <div className="App">

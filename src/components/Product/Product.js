@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { db } from "../../Firebase/FireBase";
 
-function Product({ title, price, rating, pic, id }) {
+function Product({ title, price, rating, pic, id , click}) {
   let getRating = (ratingNumber) => {
     let ratting = [];
     for (let i = 0; i < ratingNumber; i++) {
@@ -14,9 +14,7 @@ function Product({ title, price, rating, pic, id }) {
   const addToCart = () => {
     const cartItem = db.collection("cartItems").doc(id);
     cartItem.get().then((doc) => {
-      console.log(doc.exists)
       if (doc.exists) {
-        console.log("the document does exist !!!!! ")
         cartItem.update({
           quantity: doc.data().quantity + 1,
         });
@@ -31,8 +29,8 @@ function Product({ title, price, rating, pic, id }) {
     });
   };
   return (
-    <Container>
-      <Title>{title}</Title>
+    <Container >
+      <Title onClick={click} >{title}</Title>
       <Price>$ {price}</Price>
       <Rating>
         {getRating(Math.floor(rating)).map((star) => {
@@ -52,7 +50,9 @@ export default Product;
 const Container = styled.div`
   background-color: white;
   z-index: 1;
-  max-height: 350px;
+  max-height: 400px;
+  max-width: 500px;
+  border-radius : 3px;
   flex-grow: 1;
   padding: 20px;
   margin: 10px;
@@ -60,21 +60,30 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.span``;
+const Title = styled.span`
+cursor : pointer;
+font-weight : 500;
+margin-bottom : 6px;
+:hover{
+  color: #007185;
+}`;
 const Price = styled.span`
   font-weight: 700;
-  margin-top: 3px;
 `;
 const Rating = styled.div`
   font-size: 18px;
   margin: 8px 0;
+  cursor : pointer;
 `;
 const AddToCart = styled.button`
-  width: 100px;
+  width: auto;
   background-color: #f0c14b;
   border-radius: 2px;
-  height: 30px;
-  cursor : pointer ;
+  height: auto;
+  font-size : 16px;
+  font-weight : 600;
+  padding : 6px; 
+  cursor: pointer;
   border: 2px solid #a88734;
 `;
 const Picture = styled.img`
