@@ -4,5 +4,6 @@
 }
 body{
   background-color: #EAEDED;
+  transition: 1s all ease;
 }
 

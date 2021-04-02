@@ -35,7 +35,7 @@ function Product({ title, price, rating, pic, id , click}) {
       <Rating>
         {getRating(Math.floor(rating)).map((star) => {
           return star;
-        })}
+        })} <span>{ 2000 - Math.floor(Math.random() * 200)} rating</span> 
       </Rating>
       <Picture src={pic} />
       <ActionSection>
@@ -58,9 +58,12 @@ const Container = styled.div`
   margin: 10px;
   display: flex;
   flex-direction: column;
+  justify-content : space-around;
 `;
 
 const Title = styled.span`
+overflow: hidden;
+max-lines: 3;
 cursor : pointer;
 font-weight : 500;
 margin-bottom : 6px;
@@ -69,11 +72,16 @@ margin-bottom : 6px;
 }`;
 const Price = styled.span`
   font-weight: 700;
+  color :#85203b;
 `;
 const Rating = styled.div`
   font-size: 18px;
-  margin: 8px 0;
+  margin: 4px 0;
   cursor : pointer;
+  span{
+    font-size : 13px;
+    color : #575151;
+  }
 `;
 const AddToCart = styled.button`
   width: auto;
@@ -89,6 +97,9 @@ const AddToCart = styled.button`
 const Picture = styled.img`
   object-fit: contain;
   max-height: 230px;
+  max-width : 300px;
+  margin:auto;
+  height : 230px;
 `;
 
 const ActionSection = styled.div`

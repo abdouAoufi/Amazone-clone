@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import image from "../../assets/portrait.jpg";
 
 const Displayer = ({ title, date, price, rating, imageSource }) => {
   console.log(imageSource);

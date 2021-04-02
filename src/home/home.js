@@ -11,6 +11,8 @@ class Home extends React.Component {
     selectedProduct: "",
   };
 
+
+
   componentDidMount() {
     db.collection("products").onSnapshot((snapshot) => {
       let tempProducts = snapshot.docs.map((doc) => {
@@ -56,12 +58,14 @@ class Home extends React.Component {
                     rating={data.product.rating}
                   />
                 );
+              } else {
+                return null;
               }
             })}
           </HeaderContainer>
           <ListContainer>
             {this.state.ourProducts.map((data, index) => {
-              if (index >= 0) {
+              if (index > 1 ) {
                 return (
                   <Product
                     click={() => {
@@ -75,11 +79,13 @@ class Home extends React.Component {
                     rating={data.product.rating}
                   />
                 );
+              } else {
+                return null;
               }
             })}
           </ListContainer>
 
-        
+           
         </Content>
       </Container>
     );

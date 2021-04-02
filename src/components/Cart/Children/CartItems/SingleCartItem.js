@@ -1,16 +1,51 @@
 import React from "react";
 import styled from "styled-components";
-import CartItem from "./CartItem";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
+import {db} from "../../../../Firebase/FireBase"
 
-const SingleCartItem = ({ id, item }) => {
-  let options = [];
+const SingleCartItem = ({ id, item , clickMinus , clickAdd}) => {
+ 
+  const addProduct = (product) => {
+    console.log("addProduct" , product);
+    const cartItem = db.collection("cartItems").doc(product);
+    cartItem.get().then((doc) => {
+      if(doc.exists){
+        cartItem.update({quantity : item.quantity +1})
+      }
+    })
+  }
 
-  for (let i = 1; i < Math.max(item.quantity + 1, 20); i++) {
-    options.push(i);
+  const MinusProduct = (product) => {
+    console.log("addProduct" , product);
+    const cartItem = db.collection("cartItems").doc(product);
+    cartItem.get().then((doc) => {
+      if(doc.exists){
+        if(item.quantity > 1){
+          cartItem.update({quantity : item.quantity - 1})
+        }else{
+          deleteItem(cartItem);
+        }
+      }
+    })
+  }
+
+  const deleteItem = (item) => {
+    item.delete();
+  }
+
+  const deleteItemFromButton = (idd) => {
+    console.log(idd)
+    let itemm = db.collection("cartItems").doc(idd);
+    itemm.get().then((doc) => {
+      if(doc.exists){
+        itemm.delete();
+      }
+    })
   }
 
   return (
-    <Container >
+    <Container>
       <ImageContainer>
         <img src={item.image} alt="product" />
       </ImageContainer>
@@ -20,13 +55,15 @@ const SingleCartItem = ({ id, item }) => {
         </CartItemInfoTop>
         <CartItemInfoBottom>
           <CartItemQuantityContainer>
-            <select value={item.quantity} readOnly>
-              {options.map((item) => {
-                return <option value={item} key={item}> Qty : {item}</option>;
-              })}
-            </select>
+            <Manageuantity onClick={() => { addProduct(id) }}>
+              <AddCircleOutlineIcon />
+            </Manageuantity>
+              <Quantity>{item.quantity} </Quantity>
+            <Manageuantity onClick={() => {MinusProduct(id)}}>
+              <RemoveCircleOutlineIcon />
+            </Manageuantity>
           </CartItemQuantityContainer>
-          <CartItemDelete>Delete</CartItemDelete>
+          <CartItemDelete onClick={() => {deleteItemFromButton(id)}}>Delete</CartItemDelete>
         </CartItemInfoBottom>
       </CartItemInfo>
       <CartItemPrice>${item.price}</CartItemPrice>
@@ -40,6 +77,7 @@ const Container = styled.div`
   padding-top: 12px;
   padding-bottom: 12px;
   display: flex;
+  border-bottom: 2px solid #c4c4c4;
 `;
 const ImageContainer = styled.div`
   width: 180px;
@@ -56,31 +94,45 @@ const ImageContainer = styled.div`
 `;
 const CartItemInfo = styled.div`
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 const CartItemInfoTop = styled.div`
   color: #007185;
   h2 {
     font-size: 18px;
+    cursor: pointer;
   }
+`;
+
+ 
+
+const Quantity = styled.h3`
+  display: inline;
+  margin: 0 12px;
 `;
 const CartItemInfoBottom = styled.div`
   display: flex;
   margin-top: 4px;
-  align-items : center;
+  align-items: center;
 `;
 const CartItemQuantityContainer = styled.div`
-  select {
-    border-radius: 7px;
-    background-color: #f0f2f2;
-    padding: 8px;
-    box-shadow: 0 2px 5px rgba(15, 17, 17, 0.15);
-  }
-  select:focus{
-    outline : none;
+  display: flex;
+  align-items: center;
+  div {
+    display: inline;
   }
 `;
-const CartItemDelete = styled.div`
-  color: #007185;
+const CartItemDelete = styled.button`
+  width: 90px;
+  height: 35px;
+  border-radius: 6px;
+  background-color: #f85959;
+  border: none;
+  font-size: 1.1rem;
+  font-weight : bold ;
+  color: white;
   margin-left: 16px;
   cursor: pointer;
 `;
@@ -90,3 +142,11 @@ const CartItemPrice = styled.div`
   margin-left: 16px;
   margin-right: auto;
 `;
+
+const Manageuantity = styled.div`
+cursor : pointer ;
+display : grid;
+padding : 8px;
+align-items : center;
+place-items : center;`;
+ 

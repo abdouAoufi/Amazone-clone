@@ -6,8 +6,8 @@ import CartTotal from "./Children/CartTotal/CartTotal";
 function Cart({ cartItems }) {
   return (
     <Container>
-      <CartItem cartItems={cartItems} />
-      <CartTotal />
+      <CartItem cartItems={cartItems}   />
+      <CartTotal cartItems={cartItems} />
     </Container>
   );
 }

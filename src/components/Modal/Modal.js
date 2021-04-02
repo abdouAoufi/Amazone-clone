@@ -3,7 +3,12 @@ import styled from "styled-components";
 
 const Modal = (props) => {
   return (
-    <Container style={{ display: props.show ? "block" : "none" }}>
+    <Container
+      style={{
+        visibility: props.show ? "visible" : "hidden",
+        transform: props.show ? "translateY(0)" : "translateY(-100vh)",
+      }}
+    >
       {props.children}
     </Container>
   );
@@ -12,6 +17,7 @@ const Modal = (props) => {
 export default Modal;
 
 const Container = styled.div`
+  transition: 0.4s all ease;
   position: fixed;
   right: 0;
   left: 0;

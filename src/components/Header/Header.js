@@ -5,7 +5,11 @@ import ShopIcon from "@material-ui/icons/Shop";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header(props) {
+  let searchInput = "";
+ const changeHandler = (event) => {
+  searchInput = (event.target.value);
+ }
   return (
     <div>
       <Container>
@@ -23,8 +27,8 @@ function Header() {
         </HeaderOptionAdress>
 
         <HeaderSearch>
-          <HeaderSearchInput type="text" />
-          <HeaderSearchIconContainer>
+          <HeaderSearchInput type="text" placeholder="Enter your search here " onChange={changeHandler}/>
+          <HeaderSearchIconContainer onClick={() => {props.searchWordBack(searchInput)}}>
             <SearchIcon />
           </HeaderSearchIconContainer>
         </HeaderSearch>
@@ -42,7 +46,7 @@ function Header() {
           <HeaderOptionCard>
             <Link to="/cart">
               <ShopIcon />
-              <CartCount>5</CartCount>
+              <CartCount>{props.quantity}</CartCount>
             </Link>
           </HeaderOptionCard>
         </HeaderNavItems>
@@ -80,7 +84,7 @@ const OptionLineTwo = styled.div`
 `;
 const HeaderSearch = styled.div`
   display: flex;
-  flex-grow: 1;
+  flex-grow: 0.8;
   height: 40px;
   border-radius: 4px;
   overflow: hidden;
@@ -91,7 +95,9 @@ const HeaderSearch = styled.div`
   }
 `;
 const HeaderSearchInput = styled.input`
-  flex-grow: 1;
+  flex-grow: 1  ;
+  font-size : 1rem;
+  padding-left : 5px;
   border: none;
   :focus {
     outline: none;
@@ -135,3 +141,5 @@ const CartCount = styled.div`
   font-weight : 700;
   color : #f08804;
 `;
+
+ 
