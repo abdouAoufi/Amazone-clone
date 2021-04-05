@@ -7,7 +7,6 @@ import {db} from "../../../../Firebase/FireBase"
 const SingleCartItem = ({ id, item , clickMinus , clickAdd}) => {
  
   const addProduct = (product) => {
-    console.log("addProduct" , product);
     const cartItem = db.collection("cartItems").doc(product);
     cartItem.get().then((doc) => {
       if(doc.exists){
@@ -17,7 +16,6 @@ const SingleCartItem = ({ id, item , clickMinus , clickAdd}) => {
   }
 
   const MinusProduct = (product) => {
-    console.log("addProduct" , product);
     const cartItem = db.collection("cartItems").doc(product);
     cartItem.get().then((doc) => {
       if(doc.exists){

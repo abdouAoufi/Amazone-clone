@@ -4,9 +4,11 @@ import Cart from "./components/Cart/Cart";
 import Home from "../src/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { db } from "./Firebase/FireBase";
+import { db, auth } from "./Firebase/FireBase";
+import Login from "./Login/Login";
 
 function App() {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [cartItems, setcartItems] = useState([]);
   const getCardItems = () => {
     db.collection("cartItems").onSnapshot((snapShot) => {
@@ -25,56 +27,45 @@ function App() {
     quantity += singleProduct.product.quantity;
   });
 
+  console.log("user", user);
+
   useEffect(() => {
     getCardItems();
   }, []);
 
   const performSearch = (value) => {
-    const produtsToSearch = db.collection("products");
-    let query;
-    if (value[0] === value[0].toUpperCase()) {
-      console.log("Searching for  .. capitle", value);
-      query = produtsToSearch.where("name", ">=",  value );
-    } else {
-      console.log(
-        "Searching for  ..",
-        value.charAt(0).toUpperCase() + value.slice(1)
-      );
-      query = produtsToSearch.where(
-        "name",
-        ">=",
-        value.charAt(0).toUpperCase() + value.slice(1)
-      );
-    }
-    query
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data().name.includes(value)) {
-            console.log("Yes it does contain");
-          }if(doc.data().name.includes(value.charAt(0).toLowerCase() + value.slice(1))){
-            console.log("Yes it does contain");
-          }
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
+    console.log("Searching for ..... ", value);
+  };
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      setUser(null);
+      localStorage.removeItem("user");
+    });
   };
 
   return (
     <Router>
-      <div className="App">
-        <Header quantity={quantity} searchWordBack={performSearch} />
-        <Switch>
-          <Route path="/cart">
-            <Cart cartItems={cartItems} />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
+      {!user ? (
+        <Login setUser={setUser} />
+      ) : (
+        <div className="App">
+          <Header
+            signOut={signOut}
+            userInfo={user}
+            quantity={quantity}
+            searchWordBack={performSearch}
+          />
+          <Switch>
+            <Route path="/cart">
+              <Cart cartItems={cartItems} />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      )}
     </Router>
   );
 }

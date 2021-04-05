@@ -10,6 +10,7 @@ function Header(props) {
  const changeHandler = (event) => {
   searchInput = (event.target.value);
  }
+ console.log(props)
   return (
     <div>
       <Container>
@@ -34,12 +35,12 @@ function Header(props) {
         </HeaderSearch>
 
         <HeaderNavItems>
-          <HeaderOption>
-            <OptionLineOne>Hello , Maissa </OptionLineOne>
+          <HeaderOption onClick={props.signOut}>
+            <OptionLineOne>{props.userInfo.name}</OptionLineOne>
             <OptionLineTwo>Account & list</OptionLineTwo>
           </HeaderOption>
 
-          <HeaderOption>
+          <HeaderOption >
             <OptionLineOne>Reuturns</OptionLineOne>
             <OptionLineTwo>& Orders</OptionLineTwo>
           </HeaderOption>
@@ -121,7 +122,8 @@ const HeaderOption = styled.div`
   padding-left : 9px ;
   padding-right : 9px
   pading-top : 10px;
-  padding-bottom : 10px
+  padding-bottom : 10px;
+  cursor : pointer ;
   `;
 
 const HeaderOptionCard = styled.div`
